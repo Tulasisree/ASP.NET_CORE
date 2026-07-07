@@ -39,3 +39,10 @@ Taks used for async in .NET
 
 IActionResult:
 interface for action method results (check images)
+
+ public async Task<ActionResult<IEnumerable<DiaryEntry>>> GetDiaryEntries()
+        {
+            return await _context.DiaryEntries.ToListAsync();
+        }
+
+HTTPPOST:

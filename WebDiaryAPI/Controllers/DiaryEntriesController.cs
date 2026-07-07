@@ -33,5 +33,24 @@ namespace WebDiaryAPI.Controllers
 
             return diaryEntry;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<DiaryEntry>> PostDiaryEntry(DiaryEntry diaryEntry)
+        {
+            //Id shd not be assigned previously , if its does then we might end up creating a 
+            //duplicate record so assign 0
+            //Id is created when its added to db.
+            diaryEntry.Id = 0;
+            _context.DiaryEntries.Add(diaryEntry);
+
+            await _context.SaveChangesAsync();
+
+            //location at which item has been created
+            //provides clear guidence to client on how to access the new resource created
+            //facilitates followUp actions
+            var resourceUrl = Url.Action(nameof(GetDiaryEntry),new {id=diaryEntry.Id});
+            
+            return Created(resourceUrl,diaryEntry);
+        }
     }
 }
