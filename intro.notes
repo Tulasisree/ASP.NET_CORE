@@ -1,6 +1,9 @@
 - Cross-Platform capability
 - Open source community
 
+Create a project:
+SHIFT+COMMAND+P (SELECT .NET>NEW PROJECT)-> (select what you want to create)
+
 "dotnet build"
 "dotnet run"
 "dotnet watch run" -> auto reload

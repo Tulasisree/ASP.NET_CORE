@@ -1,0 +1,3 @@
+.NET 10 use openapi:
+ IF U WANT SWAGGER:
+    "dotnet add package Swashbuckle.AspNetCore"
