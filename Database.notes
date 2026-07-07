@@ -29,6 +29,7 @@ Connection string in appsetting.json will allow the ppan to connect to the db
 
 Entity framework:
     allows writing "c#" code which take care of connnecting to db and crud
+    (DbContext part of this)
     "dotnet add package Microsoft.EntityFrameworkCore.SqlServer"
     "dotnet add package Microsoft.EntityFrameworkCore.Tools"
     "dotnet list package --include-transitive"

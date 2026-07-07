@@ -1,3 +1,23 @@
-.NET 10 use openapi:
+.NET 10 use openapi: also is creates MINIMAL API instead of controller
  IF U WANT SWAGGER:
     "dotnet add package Swashbuckle.AspNetCore"
+
+API CONTROLLER:
+[ApiController] attribute , tells that this class is ApiController
+[Route("[controller]")] defines route for this controller. Here its [controller] i.e controllers name
+
+If ur project doesn't have controller (create one) , current .net gives only minimal Api
+and then 
+builder.Services.AddControllers();
+app.MapControllers(); in ur project.cs
+
+In MVC controller from "Controller" here its "ControllerBase"
+
+[HttpGet(Name = "GetWeatherForecast")] -> use given name to call that particular get method
+
+As done in MVC:
+- use Entity framework and setup ur Database
+Create ur Model
+download entity framework(ef)
+Create dbset(Data/ApplicationDbContext) with uses the model and DbContext to perfom action on the db
+Add DBContext service in program.cs
