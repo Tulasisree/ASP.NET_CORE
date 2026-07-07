@@ -1,0 +1,135 @@
+Model:
+- can be named whatever we want
+
+Annotations:
+    attribute classes applied directly to model properties to enforce validation rules, 
+    format UI displays, or map database schemas. 
+    They live primarily inside the namespaces System.ComponentModel.DataAnnotations and 
+    System.ComponentModel.DataAnnotations.Schema
+    [Key] -> uniqye identifier
+    [Required] -> not nullable
+    3 ways of making it not null, since required want it to be initialised
+        1) using required -> public required string Title { get; set;}
+        2) using "?" public string? Title { get; set;}
+        3) assiging to empty string -> public string? Title { get; set;} = string.Empty;
+
+Setting up sql server and management studio:
+- download sql server
+for mac vscode:
+    -> pull docker sql server image
+    -> create container
+    -> install mssql vscode extension
+    -> Add connection
+Connection string in appsetting.json will allow the ppan to connect to the db
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost,1433;Database=Diary;User Id=sa;Password=YourStrong@123;TrustServerCertificate=True;"
+  }
+  if you have ssl certificate issue:
+    MultipleActiveResultSets=true //but have downsides
+
+Entity framework:
+    allows writing "c#" code which take care of connnecting to db and crud
+    "dotnet add package Microsoft.EntityFrameworkCore.SqlServer"
+    "dotnet add package Microsoft.EntityFrameworkCore.Tools"
+    "dotnet list package --include-transitive"
+
+Setupservice in program.cs for db 
+add new folder Data and create DbContext under that.(Data/ApplicationDbContext.cs)
+-> passes options to base class DBContext
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
+
+Four Steps to add a table:
+1. create model class
+2. Add DB set (in applicationDBcontext)
+    DbSet = "This class becomes a table in database"
+    DbSet in EF Core represents a queryable collection; data is not loaded until the query is 
+    executed using methods like ToList(), which triggers SQL execution on the database.
+3. add-migration AddDiaryEntryTable
+    -> "dotnet tool install --global dotnet-ef"
+    -> "dotnet ef migrations add AddDiaryEntryTable"
+        migration is an instruction on how to modify ur database
+        dotnet ef → Entity Framework command tool
+        migrations add → create a new migration
+        AddDiaryEntryTable → migration name
+        -> check out the files , you will have up() and down() to create and delete table
+4. update-database
+    "dotnet ef database update"
+
+Seeding data to database:
+ApplicationDbContext is used for seeding data and also reading data
+OnModelCreating() method
+to need to data we need migration
+    "dotnet eg migration add [action u did]"
+and then update db
+    "dotnet ef database update"
+
+CRUD (POSTCreate GETRead PUTupdate DELETEDelete):
+    ORM Framework is used
+
+Reading data from db:
+-> make dbcontext avaible in the controller
+-> in prgraom.cs we have already made AppnDBContext avaiblable through the appn
+    builder.Services.AddDbContext<ApplicationDbContext>(....)
+    Controller
+    ↓
+    LINQ Query (C#)
+    ↓
+    EF Core translates to SQL
+    ↓
+    SQL Server executes
+    ↓
+    Returns rows
+    ↓
+    EF converts to objects
+    ↓
+    View displays HTML
+
+    *List<DiaryEntry> objDiaryEntryList = _db.DiaryEntries.ToList();*
+    Hey EF Core, I want to work with DiaryEntries table
+    _db.DiaryEntries -> EF Core builds SQL internally like: SELECT * FROM DiaryEntries 
+    .ToList() -> NOW EF Core executes SQL: SELECT * FROM DiaryEntries
+    _db.DiaryEntries does NOT already contain data — it is just a query object. 
+    Data is fetched from SQL Server only when you execute a method like .ToList(), .FirstOrDefault(), etc.
+
+* check create view and action for POST functionality
+[HttpPost] annotations is used in controller
+asp forms and tags are used in views
+
+Client side validation:
+Views/shared/_ValidationScriptsPartial.cshtml 
+    includes jquery to validate
+Add below section at the end in the view you want to have validation
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+}
+adding validation summary
+    <div asp-validation-summary="All" class="text-danger">
+or  
+    <span asp-validation-for="Title" class="text-danger"></span>
+or 
+    we can directly mention the error message we want in the model file
+    [Required(ErrorMessage = "Please enter a title")]
+        [StringLength(100, MinimumLength = 3,ErrorMessage = "Title must be btwn 3-100 characters")]
+        public string Title { get; set;} = string.Empty;
+
+Server Side Validation:
+*before adding to db in Create() post function under controller
+if (objDiaryEntry != null && objDiaryEntry.Title.Length < 3){
+                //ModelState is property of controllers
+                ModelState.AddModelError("Title","Title too short");
+            }
+
+Edit/UPDATE:
+    Passing id:
+        asp-route-id="entry.Id"
+    <a class="btn btn-primary" asp-area="" asp-route-id="entry.Id" asp-controller="DiaryEntries" asp-action="Edit">
+                                Edit
+                            </a>
+    Finidng in controller:
+            //? means can be nullable since id can be nullable
+            DiaryEntry? objDiaryEntry = _db.DiaryEntries.Find(id);
+    Updating:
+            _db.DiaryEntries.Update(objDiaryEntry);
+
+DELETE:
+ same as update but _db.DiaryEntries.Remove(objDiaryEntry); instead of edit

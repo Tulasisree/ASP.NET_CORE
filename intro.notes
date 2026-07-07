@@ -1,0 +1,84 @@
+- Cross-Platform capability
+- Open source community
+
+"dotnet build"
+"dotnet run"
+"dotnet watch run" -> auto reload
+
+Scalability and perfo:
+    Optimized Performance:
+        High throughput, low latency
+    Asynchronous Programming
+        async/await
+    Efficient Resource Management
+        built in memory management and garbage collection
+
+Versatile dev:
+    Wide range of appns:
+    restful apis, MVC, microservices mobile backends, IOT appms
+    Front-end integration:
+        Angular, React, vue.js
+    Cloud ready features:
+        azure services, docker, kubernetes
+
+Security features:
+    Authentication and authorization:
+        built in supprt for JTW, Oauth, social logins as well as robust authorization mechanisms.
+    Data Protection:
+        APIs for encrypting data at rest and in transit, ensuring compliance with Security standards and regulations
+    Regular Security Updates:
+        continuous security updates and patches from microsoft, addressing new vul and threats
+
+launchSettings.json -> indicates how our file is run
+
+dotnet dev-certs https --trust
+
+.csproj:
+ <Nullable>enable</Nullable>
+    introduced in .net8
+    allows handling nullable types
+<ImplicitUsings>enable</ImplicitUsings>
+    adds usings (namespaces references ti the file)
+
+wwwroot:
+    - contains files that can directly be sent to user
+    - allows caching, faster reload time
+    - non critical data file
+    - just frontend stuff
+
+    you can check these files directly on web:
+        http://localhost:5161/css/site.css
+
+MVC:
+Controller:
+    - name before the xController.cs shd have same folder in views
+    - have different actions whihc trigger the same view as the action name
+Views:
+    error view exists under Views/shared
+    shared/_Layout.cshtml:
+        contains the outser layout of the website (navbar , footer)
+        renders the body for different pages
+    renders the scripts fron the pages @section Scripts{} in views
+    @{} -> c# code
+    How does the appn know to load layout for each of the views??
+    - inside of _ViewStart.cshtml we can see layout to render is _Layout
+    _ValidationScriptsPartial.cshtml:
+        only capable of running with another file in combination.
+    _ViewImports.cshtml
+        all views in this directory shd have access to the mentioned things
+    Error.cshtml:
+        display error code
+
+appsetting.json:
+    for config settings
+    setting logging
+
+Program.cs:
+    - entry point of ASP.NET core appn
+    - configures the appns services and middlewasre
+    - registeres and configures services required by appn
+    - setus up the request processing pipeline, defining how requests are handled
+
+Building own route:
+- Add action(new method) in controller  which returns a view
+- We need to have the same named view under Views/(controller name) 
