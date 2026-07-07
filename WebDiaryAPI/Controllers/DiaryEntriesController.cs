@@ -14,5 +14,11 @@ namespace WebDiaryAPI.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
+        public IEnumerable<DiaryEntry> GetDiaryEntries()
+        {
+            return _context.DiaryEntries.ToList();
+        }
     }
 }

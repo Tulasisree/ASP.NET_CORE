@@ -21,3 +21,14 @@ Create ur Model
 download entity framework(ef)
 Create dbset(Data/ApplicationDbContext) with uses the model and DbContext to perfom action on the db
 Add DBContext service in program.cs
+
+HttpGet:
+[HttpGet]
+public IEnumerable<DiaryEntry> GetDiaryEntries()
+{
+    return _context.DiaryEntries.ToList();
+}
+acces with http://localhost:*/api/DiaryEntries
+
+IEnumerable:
+Gneric type we can use for (list array set dictionary etc) collection.
