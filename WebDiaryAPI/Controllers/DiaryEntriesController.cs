@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using DiaryApp.Models;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
@@ -93,6 +94,21 @@ namespace WebDiaryAPI.Controllers
         private bool DiaryEntryExists(int id)
         {
             return _context.DiaryEntries.Any(d => d.Id == id);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDiaryEntry(int id)
+        {
+            var diaryEntry = await _context.DiaryEntries.FindAsync(id);
+            if(diaryEntry == null)
+            {
+                return NotFound();
+            }
+
+            _context.DiaryEntries.Remove(diaryEntry);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

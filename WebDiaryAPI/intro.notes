@@ -50,3 +50,6 @@ check post in controller
 
 HTTPPUT:
 check put in controller
+
+HTTPDELETE:
+check delete in controller
