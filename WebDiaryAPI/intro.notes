@@ -32,3 +32,10 @@ acces with http://localhost:*/api/DiaryEntries
 
 IEnumerable:
 Gneric type we can use for (list array set dictionary etc) collection.
+
+Asynchronous programming:
+check images
+Taks used for async in .NET
+
+IActionResult:
+interface for action method results (check images)
