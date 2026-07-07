@@ -1,5 +1,7 @@
 using DiaryApp.Models;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Tree;
 using Microsoft.EntityFrameworkCore;
 using WebDiaryAPI.Data;
 
@@ -49,8 +51,48 @@ namespace WebDiaryAPI.Controllers
             //provides clear guidence to client on how to access the new resource created
             //facilitates followUp actions
             var resourceUrl = Url.Action(nameof(GetDiaryEntry),new {id=diaryEntry.Id});
-            
+
             return Created(resourceUrl,diaryEntry);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutDiaryEntry(int id,[FromBody] DiaryEntry diaryEntry)
+        {
+            //[FromBody] binds request body to DiaryEntry type
+            if(id != diaryEntry.Id)
+            {
+                return BadRequest();
+            }
+
+            //marks diaryEntry as modified in DbContext which tells the ef to update the existing 
+            //record in db
+            //UPDATE [DiaryEntries]
+            // SET 
+            //     [Title] = @p0,
+            //     [Content] = @p1,
+            //     [Created] = @p2
+            // WHERE [Id] = @p3; (pppulated from object)
+            _context.Entry(diaryEntry).State = EntityState.Modified; //doesnt execute update yet
+
+            try
+            {
+                await _context.SaveChangesAsync();//executes
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                if(!DiaryEntryExists(id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
+
+            return NoContent();
+        }
+
+        private bool DiaryEntryExists(int id)
+        {
+            return _context.DiaryEntries.Any(d => d.Id == id);
         }
     }
 }

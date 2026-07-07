@@ -46,3 +46,7 @@ interface for action method results (check images)
         }
 
 HTTPPOST:
+check post in controller
+
+HTTPPUT:
+check put in controller
