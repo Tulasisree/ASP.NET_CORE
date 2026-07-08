@@ -1,0 +1,45 @@
+ASP IDENTITY:
+    identity context
+"dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+"dotnet add package Microsoft.AspNetCore.Identity.UI"
+    gets acess to same addn methods to add feault pages to appn for logging in/out, registartion etc.
+
+create Dbcontext(entitiy framework) based on IdentityContext (heart of Identity package)
+Thi socntext will have predefined files for a default user
+
+Identity dbcontext:
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+-> based on user and role (check IdentityDbConext definition)
+->  DbSet( i.e tables in db) for UserRoles, roles, rolesclaims
+-> inherits Identity UserContext which add user related dbsets.
+
+Registeirng dbContxt:
+"dotnet add package Microsoft.EntityFrameworkCore.SqlServer"
+Register Dbcontext service in progam.cs
+
+"dotnet add package Microsoft.EntityFrameworkCore.Tools"
+ - for migratiosn and updating and patching db
+
+Adding the conncetion string in Appsetting.json and adding migration and updating db will create ur db
+
+Configuring default identity:
+-> requires Identity UI for this
+
+Adding scaffolded item(page):
+"dotnet tool install -g dotnet-aspnet-codegenerator"
+"dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design"
+"dotnet add package Microsoft.EntityFrameworkCore.Design"
+To Scaffold all pages:
+    "dotnet aspnet-codegenerator identity -dc ApplicationDbContext"
+Only login page:
+    "dotnet aspnet-codegenerator identity -dc ApplicationDbContext --files "Account.Login"
+    This creates Areas/Identity/Pages/Account/Login.cshtml also login.cshtml
+    http://localhost:5050/identity/account/login
+
+Razore Pages:
+View vs Razore pages:
+view uses controller -> action resulkt(view)-> view
+Razore page ->uses c# file(has login.cshtml) created specifically for that page
+
+Map Razor pages in program.cs
+    app.MapRazorPages();

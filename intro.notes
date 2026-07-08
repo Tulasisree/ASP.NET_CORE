@@ -34,7 +34,7 @@ Security features:
 
 launchSettings.json -> indicates how our file is run
 
-dotnet dev-certs https --trust
+dotnet dev-certs https --trust (for https)
 
 .csproj:
  <Nullable>enable</Nullable>
