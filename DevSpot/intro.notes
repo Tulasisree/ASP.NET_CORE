@@ -22,6 +22,10 @@ Register Dbcontext service in progam.cs
 
 Adding the conncetion string in Appsetting.json and adding migration and updating db will create ur db
 
+db tables:
+- these are create automatically with identity service
+(AspNetRoles, AspNetUsers, AspNetUserRoles etc...)
+
 Configuring default identity:
 -> requires Identity UI for this
 
@@ -43,3 +47,32 @@ Razore page ->uses c# file(has login.cshtml) created specifically for that page
 
 Map Razor pages in program.cs
     app.MapRazorPages();
+
+Careting service scope for seeding roles:
+(below code in Identity regisration)
+.AddRoles<IdentityRole>() // gives acces to role manager
+//using service provides which contains all the services of our application
+//we use to it to get role manger to configured to create and update , patch roles of
+// type IdenttityRole
+using (var scope = app.Services.CreateScope())
+{
+    //used to resolve dependencies from the scope
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+}
+
+Seeding admin role:
+under Data/RoleSeeder.cs
+here .Result is used to support async
+if (!roleManager.RoleExistsAsync("Admin").Result)
+    {
+        var result = roleManager.CreateAsync(new IdentityRole("Admin")).Result;
+    }
+check db apsNetRoles table adn you can see that admin role is created
+
+Seeding user role:
+Data/UserSeeder.cs
+
+Role seeder sees wos into AspNetRoles tables
+User seeder sees to AspNetUser and also AspNetUserRole if added with role.
+AspNetuserRole will have ID connecting AspNetUser and AspNetRole
