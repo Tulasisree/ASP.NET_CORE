@@ -76,3 +76,9 @@ Data/UserSeeder.cs
 Role seeder sees wos into AspNetRoles tables
 User seeder sees to AspNetUser and also AspNetUserRole if added with role.
 AspNetuserRole will have ID connecting AspNetUser and AspNetRole
+
+Customizing registration process:
+dotnet aspnet-codegenerator identity -dc ApplicationDbContext --files "Account.Register"
+this will create .CSHTML AND .cs file under Areas/Identity/Pages/Account
+Next since we want to know the role of the new user, if its a jobs seeker or employer we want 
+to add new input under InputModel in Register.cshtml.cs
