@@ -87,3 +87,12 @@ Job Posting Model:
 create job posting mode under Models
 Here userId is a foriegn key since we have know about the user who created the job
 -> Add dbSet for this job posting model 
+
+The Repository design:
+1. create repository interfaces which can be used by any other class to create/updates/add/delete action
+2. create Jobposting repsitory and use theinterface created earlier and iplement the fncs
+3. we need access to dbcontext.
+    dependdency injection plays a part here
+    -> In program.cs we have already registered the ApplicationDbContext service
+    -> now we also need to registers repsitory so that .NET can inject all other services to this
+    -> in JobPosting repository you can create a constructor and request the Dbcontext there

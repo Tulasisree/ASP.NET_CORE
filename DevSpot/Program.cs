@@ -1,8 +1,11 @@
 using Data.UserSeeder;
 using DevSpot.Data;
+using DevSpot.Models;
+using DevSpot.Respositories;
 using DevSpot.RoleSeeder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options=>
 })
     .AddRoles<IdentityRole>() // add roles for the identity user from prebuilt Identity Role
     .AddEntityFrameworkStores<ApplicationDbContext>();//add stores for entity user and roles to store in ef
+
+//Scoped means request new instance of job posting created everytime 
+builder.Services.AddScoped<IRespository<JobPosting>, JobPostingRespository>();
 
 var app = builder.Build();
 
