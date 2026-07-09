@@ -82,3 +82,8 @@ dotnet aspnet-codegenerator identity -dc ApplicationDbContext --files "Account.R
 this will create .CSHTML AND .cs file under Areas/Identity/Pages/Account
 Next since we want to know the role of the new user, if its a jobs seeker or employer we want 
 to add new input under InputModel in Register.cshtml.cs
+
+Job Posting Model:
+create job posting mode under Models
+Here userId is a foriegn key since we have know about the user who created the job
+-> Add dbSet for this job posting model 
