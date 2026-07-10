@@ -99,3 +99,19 @@ The Repository design:
 
 Adding Job posting controller:
 This handles the requests
+Only a logged in user who is an employer shd create a job,
+To get the user details and authorization tasks we use ViewModels
+
+View Models:
+view model is like a child of main Model which only contains the view specific content.
+In this case since JobPosting model [Requires] UserId , we use User property from the controller base and populate it.
+So viewmodel without userid -> jop posting object with user id -> seeded to DB
+
+Validation msgs:
+views/shared/_validation...
+INCLUDE THAT IN THE CREATE.CSHTML page
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

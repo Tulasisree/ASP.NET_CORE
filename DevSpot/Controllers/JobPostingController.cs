@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using DevSpot.Models;
 using DevSpot.Respositories;
+using DevSpot.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Packaging.Core;
@@ -29,8 +30,22 @@ public class JobPostingController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(JobPosting jobPosting)
+    public async Task<IActionResult> Create(JobPostingViewModel jobPostingVm)
     {
-        return RedirectToAction(nameof(Index));
+        if(ModelState.IsValid)
+        {
+            var jobPosting = new JobPosting{
+                Title = jobPostingVm.Title,
+                Description = jobPostingVm.Description,
+                Company = jobPostingVm.Company,
+                Location  = jobPostingVm.Location,
+                UserId = _userManager.GetUserId(User)
+            };
+
+           await _repository.AddAsync(jobPosting);
+           return RedirectToAction(nameof(Index));
+        }
+
+        return View(jobPostingVm);
     }
 }
