@@ -96,3 +96,6 @@ The Repository design:
     -> In program.cs we have already registered the ApplicationDbContext service
     -> now we also need to registers repsitory so that .NET can inject all other services to this
     -> in JobPosting repository you can create a constructor and request the Dbcontext there
+
+Adding Job posting controller:
+This handles the requests

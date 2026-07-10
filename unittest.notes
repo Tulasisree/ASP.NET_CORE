@@ -1,0 +1,14 @@
+"dotnet new xunit -n DevSpot.Tests"
+
+Add test project to your project:
+"dotnet sln ASP.NET.sln add DevSpot.Tests/DevSpot.Tests.csproj"
+
+Add project reference:
+"dotnet add DevSpot.Tests/DevSpot.Tests.csproj reference DevSpot/DevSpot.csproj"
+
+"dotnet sln ASP.NET.sln list"
+
+In memory db:
+"dotnet add DevSpot.Tests package Microsoft.EntityFrameworkCore.InMemory"
+
+[FACT] attribute to a function specifies that it shd be run by the test runner.
