@@ -115,3 +115,10 @@ INCLUDE THAT IN THE CREATE.CSHTML page
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+Authorization:
+using [Authorize] attribute
+->We can override authorize attribute for specific actions using [AllowAnonymous]
+    In this situation we want to allow non loggined in user to check job postings
+-> Restring create job posting to only admins and employers
+    [Authorize(Roles = "Admin,Employer")]
