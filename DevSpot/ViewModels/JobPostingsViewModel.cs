@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DevSpot.ViewModels;
 
-public class JobPostingViewModel
+public class JobPostingsViewModel
 {
     public int Id {get; set;} //giving name ID, ef will automtically set it as PK
     [Required]

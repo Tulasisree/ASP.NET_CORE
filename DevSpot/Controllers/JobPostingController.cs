@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using DevSpot.Constants;
 using DevSpot.Models;
 using DevSpot.Respositories;
 using DevSpot.ViewModels;
@@ -33,7 +34,7 @@ public class JobPostingController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Admin,Employer")]
-    public async Task<IActionResult> Create(JobPostingViewModel jobPostingVm)
+    public async Task<IActionResult> Create(JobPostingsViewModel jobPostingVm)
     {
         if(ModelState.IsValid)
         {
@@ -50,5 +51,27 @@ public class JobPostingController : Controller
         }
 
         return View(jobPostingVm);
+    }
+
+//JobPosting/delete/5
+    [HttpDelete]
+    [Authorize(Roles = "Admin,Employer")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var jobPosting = await _repository.GetByIdAsync(id);
+        if(jobPosting == null)
+        {
+            return NotFound();
+        }
+
+        var userId = _userManager.GetUserId(User);
+        if(User.IsInRole(Roles.ADMIN) == false && jobPosting.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        await _repository.DeleteAsync(id);
+
+        return Ok();
     }
 }

@@ -122,3 +122,8 @@ using [Authorize] attribute
     In this situation we want to allow non loggined in user to check job postings
 -> Restring create job posting to only admins and employers
     [Authorize(Roles = "Admin,Employer")]
+
+Delete job posting:
+[HttpDelete]
+[Authorize(Roles = "Admin,Employer")]
+Used ajax, Js in views for communicating with controller and frontend delete action without reloading
