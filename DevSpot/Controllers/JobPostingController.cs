@@ -24,6 +24,11 @@ public class JobPostingController : Controller
     public async Task<IActionResult> Index()
     {
         var jobPostings = await _repository.GetAllAsync();
+        if(User.IsInRole(Roles.EMPLOYER))
+        {
+            var filterdJobPostings = jobPostings.Where(x => x.UserId == _userManager.GetUserId(User));
+            return View(filterdJobPostings);
+        }
         return View(jobPostings);
     }
     [Authorize(Roles = "Admin,Employer")]

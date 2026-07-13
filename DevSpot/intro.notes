@@ -127,3 +127,6 @@ Delete job posting:
 [HttpDelete]
 [Authorize(Roles = "Admin,Employer")]
 Used ajax, Js in views for communicating with controller and frontend delete action without reloading
+
+Filter job posting for employers:
+emplyer shd only see and delete his own posted jobs
