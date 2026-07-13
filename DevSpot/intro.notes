@@ -130,3 +130,5 @@ Used ajax, Js in views for communicating with controller and frontend delete act
 
 Filter job posting for employers:
 emplyer shd only see and delete his own posted jobs
+
+Adding navigation menu items in _Layout.cshtml
